@@ -26,6 +26,7 @@ public class SignupController {
 
     @PostMapping()
     public String signupUser(@ModelAttribute User user, Model model) {
+
         String signupError = null;
 
         if (!userService.isUsernameAvailable(user.getUsername())) {
