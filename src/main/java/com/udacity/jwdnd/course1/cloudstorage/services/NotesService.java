@@ -16,6 +16,10 @@ public class NotesService {
     }
 
     public int createNote(Note note) {
+
+        if (note.getNoteid() != null)
+            return noteMapper.update(note);
+
         return noteMapper.insert(note);
     }
 
@@ -23,8 +27,11 @@ public class NotesService {
         return noteMapper.getNotes(userid);
     }
 
-    public Note getNote(Integer userid) {
+    public Note getNote(Integer noteid) {
+        return noteMapper.getNote(noteid);
+    }
 
-        return null;
+    public void delete(Integer noteid) {
+        noteMapper.delete(noteid);
     }
 }
