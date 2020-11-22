@@ -19,8 +19,8 @@ public class NotesService {
 
         if (note.getNoteid() != null)
             noteMapper.update(note);
-
-        noteMapper.insert(note);
+        else
+            noteMapper.insert(note);
     }
 
     public List<Note> getNotes(Integer userid) {

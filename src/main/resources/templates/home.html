@@ -18,7 +18,7 @@
     <div id="contentDiv" style="clear: right;">
         <nav style="clear: right;">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab"
+                <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab"
                    aria-controls="nav-files" aria-selected="true">Files</a>
                 <a class="nav-item nav-link " id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab"
                    aria-controls="nav-notes" aria-selected="false">Notes</a>
@@ -27,7 +27,7 @@
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
+            <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
                 <form action="#" enctype="multipart/form-data" method="POST">
                     <div class="container">
                         <div class="row" style="margin: 1em;">
@@ -87,11 +87,12 @@
                         </tr>
                         <tr th:unless="${#lists.isEmpty(notes)}" th:each="note : ${notes}">
                             <td>
+
                                 <button type="button" class="btn btn-success"
+                                        style="float: left; margin-right: 5px;"
                                         th:attr="onclick=|showNoteModal(${note.noteid}, '${note.notetitle}', '${note.notedescription}')|">
                                     Edit
                                 </button>
-
                                 <form method="POST" th:action="@{/note-delete}">
                                     <input type="hidden" name="noteid" th:value="${note.noteid}">
                                     <button type="submit" class="btn btn-danger"
