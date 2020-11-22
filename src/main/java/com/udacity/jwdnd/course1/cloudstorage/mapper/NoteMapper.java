@@ -16,10 +16,10 @@ public interface NoteMapper {
 
     @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{notetitle}, #{notedescription}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
-    int insert(Note note);
+    void insert(Note note);
 
     @Update("UPDATE NOTES SET notetitle = #{notetitle}, notedescription = #{notedescription}, userid =  #{userid} WHERE noteid = #{noteid}")
-    int update(Note note);
+    void update(Note note);
 
     @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
     void delete(Integer noteid);

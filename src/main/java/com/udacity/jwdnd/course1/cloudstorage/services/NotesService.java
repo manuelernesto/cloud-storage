@@ -15,12 +15,12 @@ public class NotesService {
         this.noteMapper = noteMapper;
     }
 
-    public int createNote(Note note) {
+    public void createNote(Note note) {
 
         if (note.getNoteid() != null)
-            return noteMapper.update(note);
+            noteMapper.update(note);
 
-        return noteMapper.insert(note);
+        noteMapper.insert(note);
     }
 
     public List<Note> getNotes(Integer userid) {
