@@ -24,22 +24,41 @@ public class CredentialService {
     }
 
     public void saveCredential(Credential credential) {
+
+        if (credential.getCredentialid() != null)
+            updateCredential(credential);
+        else
+            newCredential(credential);
+
+    }
+
+
+    public void deleteCredential(Integer credentialid) {
+        credentialMapper.delete(credentialid);
+    }
+
+
+    private void newCredential(Credential credential) {
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
         String hashedPassword = hashService.getHashedValue(credential.getPassword(), encodedKey);
+
         credential.setKey(encodedKey);
         credential.setPassword(hashedPassword);
 
-        if (credential.getCredentialid() != null)
-            credentialMapper.update(credential);
-        else
-            credentialMapper.insert(credential);
-
+        credentialMapper.insert(credential);
     }
 
-    public void deleteCredential(Integer credentialid) {
-        credentialMapper.delete(credentialid);
+    private void updateCredential(Credential credential) {
+        Credential credentialDB = credentialMapper.getCredential(credential.getCredentialid());
+
+        if (!credentialDB.getPassword().equals(credential.getPassword())) {
+            String newHashedPassword = hashService.getHashedValue(credential.getPassword(), credentialDB.getKey());
+            credential.setPassword(newHashedPassword);
+        }
+
+        credentialMapper.update(credential);
     }
 }
