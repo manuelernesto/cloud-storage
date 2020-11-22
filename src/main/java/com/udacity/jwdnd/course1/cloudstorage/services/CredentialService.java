@@ -38,4 +38,8 @@ public class CredentialService {
             credentialMapper.insert(credential);
 
     }
+
+    public void deleteCredential(Integer credentialid) {
+        credentialMapper.delete(credentialid);
+    }
 }

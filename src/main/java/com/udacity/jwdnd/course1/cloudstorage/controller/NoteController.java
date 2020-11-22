@@ -38,7 +38,7 @@ public class NoteController {
 
     @PostMapping("/note-delete")
     public String deleteNote(@RequestParam Integer noteid) {
-        notesService.delete(noteid);
+        notesService.deleteNote(noteid);
         return "redirect:/home";
     }
 }

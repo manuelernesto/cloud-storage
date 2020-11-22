@@ -162,14 +162,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:if="${#lists.isEmpty(credentials)}">
+                            <td></td>
+                            <th scope="row" colspan="3">No credentials found. Add a credential</th>
+                        </tr>
+                        <tr th:unless="${#lists.isEmpty(credentials)}" th:each="credential : ${credentials}">
                             <td>
-                                <button type="button" class="btn btn-success">Edit</button>
-                                <a class="btn btn-danger">Delete</a>
+                                <button type="button" class="btn btn-success"
+                                        style="float: left; margin-right: 5px;">Edit
+                                </button>
+
+                                <form method="POST" th:action="@{/credential-delete}">
+                                    <input type="hidden" name="credentialid" th:value="${credential.credentialid}">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete the credential?');">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
-                            <th scope="row">Example Credential URL</th>
-                            <td>Example Credential Username</td>
-                            <td>Example Credential Password</td>
+                            <th scope="row" th:text="${credential.url}">Example Credential URL</th>
+                            <td th:text="${credential.username}">Example Credential Username</td>
+                            <td th:text="${credential.password}">Example Credential Password</td>
                         </tr>
                         </tbody>
                     </table>
