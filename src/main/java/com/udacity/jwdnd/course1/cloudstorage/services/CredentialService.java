@@ -68,7 +68,8 @@ public class CredentialService {
         Credential credentialDB = credentialMapper.getCredential(credential.getCredentialid());
 
         if (!credentialDB.getPassword().equals(credential.getPassword())) {
-            String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+            String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credentialDB.getKey());
+            credential.setKey(credentialDB.getKey());
             credential.setPassword(encryptedPassword);
         }
 
