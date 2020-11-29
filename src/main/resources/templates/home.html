@@ -12,7 +12,7 @@
 <div class="container">
     <div id="logoutDiv">
         <form action="#" method="POST" th:action="@{/logout}">
-            <button type="submit" class="btn btn-secondary float-right">Logout</button>
+            <button type="submit" class="btn btn-secondary float-right" id="logout-btn">Logout</button>
         </form>
     </div>
     <div id="contentDiv" style="clear: right;">
@@ -75,8 +75,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade "
-                 th:classappend="${#strings.equals(activeTab, 'notes') ? 'show active' : ''}"
+            <div class="tab-pane fade"
                  id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
                 <button style="margin: 0.25em;" type="button" class="btn btn-info float-right"
                         onclick="showNoteModal()">

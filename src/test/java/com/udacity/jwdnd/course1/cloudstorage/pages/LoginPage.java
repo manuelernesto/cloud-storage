@@ -6,14 +6,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
-    @FindBy(css="#inputUsername")
+    @FindBy(css = "#inputUsername")
     private WebElement usernameField;
 
-    @FindBy(css="#inputPassword")
+    @FindBy(css = "#inputPassword")
     private WebElement passwordField;
 
-    @FindBy(css="#submit-button")
-    private WebElement submitButton;
+    @FindBy(css = "#submit-button")
+    public WebElement submitButton;
 
     public LoginPage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
@@ -24,4 +24,6 @@ public class LoginPage {
         this.passwordField.sendKeys(password);
         this.submitButton.click();
     }
+
+
 }
