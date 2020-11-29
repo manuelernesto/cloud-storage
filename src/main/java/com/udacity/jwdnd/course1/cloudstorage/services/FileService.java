@@ -8,25 +8,25 @@ import java.util.List;
 
 @Service
 public class FileService {
- private final FileWrapper fileWrapper;
+    private final FileWrapper fileWrapper;
 
     public FileService(FileWrapper fileWrapper) {
         this.fileWrapper = fileWrapper;
     }
 
-    public void save(File file){
-        fileWrapper.insert(file);
+    public boolean save(File file) {
+        return fileWrapper.insert(file);
     }
 
-    public void delete(Integer fileId){
-        fileWrapper.delete(fileId);
+    public boolean delete(Integer fileId) {
+        return fileWrapper.delete(fileId);
     }
 
-    public List<File> getAllFiles(Integer userId){
+    public List<File> getAllFiles(Integer userId) {
         return fileWrapper.getFiles(userId);
     }
 
-    public File getFile(Integer fileId){
+    public File getFile(Integer fileId) {
         return fileWrapper.getFile(fileId);
     }
 }

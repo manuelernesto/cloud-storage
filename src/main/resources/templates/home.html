@@ -59,6 +59,7 @@
                         <tr th:unless="${#lists.isEmpty(files)}" th:each="file : ${files}">
                             <td>
                                 <a target="_blank" class="btn btn-success"
+                                   style="float: left; margin-right: 5px;"
                                    th:href="@{/file-view(fileId=*{file.fileId})}">View</a>
                                 <form method="POST" th:action="@{/file-delete}">
                                     <input type="hidden" name="fileId" th:value="${file.fileId}">

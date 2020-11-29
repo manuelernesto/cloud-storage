@@ -11,7 +11,7 @@ public interface FileWrapper {
 
     @Insert("INSERT INTO FILES (fileName, contentType, fileSize,userId,fileData) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
-    void insert(File File);
+    boolean insert(File File);
 
     @Select("SELECT * FROM FILES WHERE userId = #{userId}")
     List<File> getFiles(Integer userId);
@@ -20,5 +20,5 @@ public interface FileWrapper {
     File getFile(Integer fileId);
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
-    void delete(Integer fileId);
+    boolean delete(Integer fileId);
 }

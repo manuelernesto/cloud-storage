@@ -30,14 +30,14 @@ public class CredentialController {
         var user = userService.getUser(auth.getName());
         credential.setUserid(user.getUserId());
 
-        credentialService.saveCredential(credential);
+        var isSuccess = credentialService.saveCredential(credential);
 
-        return "redirect:/home";
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 
     @PostMapping("/credential-delete")
     public String deleteNote(@RequestParam Integer credentialid) {
-        credentialService.deleteCredential(credentialid);
-        return "redirect:/home";
+        var isSuccess = credentialService.deleteCredential(credentialid);
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 }

@@ -36,22 +36,22 @@ public class CredentialService {
         return credentials;
     }
 
-    public void saveCredential(Credential credential) {
+    public boolean saveCredential(Credential credential) {
 
         if (credential.getCredentialid() != null)
-            updateCredential(credential);
+            return updateCredential(credential);
         else
-            newCredential(credential);
+            return newCredential(credential);
 
     }
 
 
-    public void deleteCredential(Integer credentialid) {
-        credentialMapper.delete(credentialid);
+    public boolean deleteCredential(Integer credentialid) {
+        return credentialMapper.delete(credentialid);
     }
 
 
-    private void newCredential(Credential credential) {
+    private boolean newCredential(Credential credential) {
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);
@@ -61,10 +61,10 @@ public class CredentialService {
         credential.setKey(encodedKey);
         credential.setPassword(encryptedPassword);
 
-        credentialMapper.insert(credential);
+        return credentialMapper.insert(credential);
     }
 
-    private void updateCredential(Credential credential) {
+    private boolean updateCredential(Credential credential) {
         Credential credentialDB = credentialMapper.getCredential(credential.getCredentialid());
 
         if (!credentialDB.getPassword().equals(credential.getPassword())) {
@@ -73,6 +73,6 @@ public class CredentialService {
             credential.setPassword(encryptedPassword);
         }
 
-        credentialMapper.update(credential);
+        return credentialMapper.update(credential);
     }
 }

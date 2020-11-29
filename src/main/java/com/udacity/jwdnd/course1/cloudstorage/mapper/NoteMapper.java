@@ -13,12 +13,12 @@ public interface NoteMapper {
 
     @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{notetitle}, #{notedescription}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
-    void insert(Note note);
+    boolean insert(Note note);
 
     @Update("UPDATE NOTES SET notetitle = #{notetitle}, notedescription = #{notedescription}, userid =  #{userid} WHERE noteid = #{noteid}")
-    void update(Note note);
+    boolean update(Note note);
 
     @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
-    void delete(Integer noteid);
+    boolean delete(Integer noteid);
 
 }

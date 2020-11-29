@@ -25,20 +25,19 @@ public class NoteController {
     @PostMapping("/note-save")
     public String addNote(
             Authentication auth,
-            @ModelAttribute Note note,
-            RedirectAttributes redirectAttributes) {
+            @ModelAttribute Note note) {
 
         var user = userService.getUser(auth.getName());
         note.setUserid(user.getUserId());
 
-        notesService.createNote(note);
-        redirectAttributes.addAttribute("activeTab", "notes");
-        return "redirect:/home";
+        var isSuccess = notesService.createNote(note);
+
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 
     @PostMapping("/note-delete")
     public String deleteNote(@RequestParam Integer noteid) {
-        notesService.deleteNote(noteid);
-        return "redirect:/home";
+        var isSuccess = notesService.deleteNote(noteid);
+        return "redirect:/result?isSuccess=" + isSuccess;
     }
 }

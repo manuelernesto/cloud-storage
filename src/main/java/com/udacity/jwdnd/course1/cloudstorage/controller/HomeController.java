@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller()
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
 
     private final NotesService notesService;
@@ -31,11 +31,15 @@ public class HomeController {
     public String homeView(Model model, Authentication auth) {
         var user = userService.getUser(auth.getName());
 
+        if (user == null)
+            return "/login";
+
         model.addAttribute("notes", this.notesService.getNotes(user.getUserId()));
         model.addAttribute("credentials", this.credentialService.getCredentials(user.getUserId()));
         model.addAttribute("files", this.fileService.getAllFiles(user.getUserId()));
         return "home";
 
     }
+
 
 }
