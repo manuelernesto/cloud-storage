@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface FileWrapper {
 
-    @Insert("INSERT INTO NOTES (fileName, contentType, fileSize,userId,fileData) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
+    @Insert("INSERT INTO FILES (fileName, contentType, fileSize,userId,fileData) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     void insert(File File);
 
