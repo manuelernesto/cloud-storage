@@ -28,7 +28,7 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                <form action="#" enctype="multipart/form-data" method="POST">
+                <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/file-save}">
                     <div class="container">
                         <div class="row" style="margin: 1em;">
                             <div class="col-sm-2">
@@ -52,12 +52,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:if="${#lists.isEmpty(files)}">
+                            <td></td>
+                            <th scope="row" colspan="2">No file found. Add a file</th>
+                        </tr>
+                        <tr th:unless="${#lists.isEmpty(files)}" th:each="file : ${files}">
                             <td>
-                                <a target="_blank" class="btn btn-success">View</a>
-                                <a class="btn btn-danger">Delete</a>
+                                <a target="_blank" class="btn btn-success"
+                                   th:href="@{/file-view(fileId=*{file.fileId})}">View</a>
+                                <form method="POST" th:action="@{/file-delete}">
+                                    <input type="hidden" name="fileId" th:value="${file.fileId}">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete the file?');">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
-                            <th scope="row">ExampleFile.txt</th>
+                            <th scope="row" th:text="${file.fileName}">ExampleFile.txt</th>
                         </tr>
                         </tbody>
                     </table>
@@ -170,7 +181,8 @@
                             <td>
                                 <button type="button" class="btn btn-success"
                                         style="float: left; margin-right: 5px;"
-                                        th:attr="onclick=|showCredentialModal(${credential.credentialid}, '${credential.url}', '${credential.username}', '${credential.password}')|">Edit
+                                        th:attr="onclick=|showCredentialModal(${credential.credentialid}, '${credential.url}', '${credential.username}', '${credential.password}')|">
+                                    Edit
                                 </button>
 
 

@@ -25,4 +25,8 @@ public class FileService {
     public List<File> getAllFiles(Integer userId){
         return fileWrapper.getFiles(userId);
     }
+
+    public File getFile(Integer fileId){
+        return fileWrapper.getFile(fileId);
+    }
 }

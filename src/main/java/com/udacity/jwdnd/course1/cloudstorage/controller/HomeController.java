@@ -30,10 +30,12 @@ public class HomeController {
     @GetMapping()
     public String homeView(Model model, Authentication auth) {
         var user = userService.getUser(auth.getName());
+
         model.addAttribute("notes", this.notesService.getNotes(user.getUserId()));
         model.addAttribute("credentials", this.credentialService.getCredentials(user.getUserId()));
         model.addAttribute("files", this.fileService.getAllFiles(user.getUserId()));
         return "home";
+
     }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -53,7 +54,23 @@ public class FileController {
 
     @GetMapping("/file-view")
     public void viewFile(@RequestParam("fileId") Integer fileId, HttpServletResponse response) {
+        var file = fileService.getFile(fileId);
 
+        if (file != null) {
+            try {
+                response.setContentType(file.getContentType());
+                response.setContentLength(Integer.parseInt(file.getFileSize()));
+                response.setHeader("Content-Disposition", "attachment; filename=" + file.getFileName());
+
+                ServletOutputStream outputStream = response.getOutputStream();
+                outputStream.write(file.getFileData());
+
+                response.flushBuffer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @PostMapping("/file-delete")
