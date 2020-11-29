@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -16,11 +17,13 @@ public class HomeController {
     private final NotesService notesService;
     private final CredentialService credentialService;
     private final UserService userService;
+    private final FileService fileService;
 
-    public HomeController(NotesService notesService, CredentialService credentialService, UserService userService) {
+    public HomeController(NotesService notesService, CredentialService credentialService, UserService userService, FileService fileService) {
         this.notesService = notesService;
         this.credentialService = credentialService;
         this.userService = userService;
+        this.fileService = fileService;
     }
 
 
@@ -29,6 +32,7 @@ public class HomeController {
         var user = userService.getUser(auth.getName());
         model.addAttribute("notes", this.notesService.getNotes(user.getUserId()));
         model.addAttribute("credentials", this.credentialService.getCredentials(user.getUserId()));
+        model.addAttribute("files", this.fileService.getAllFiles(user.getUserId()));
         return "home";
     }
 
