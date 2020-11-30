@@ -77,7 +77,7 @@
             </div>
             <div class="tab-pane fade"
                  id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                <button style="margin: 0.25em;" type="button" class="btn btn-info float-right"
+                <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" id="new-note-btn"
                         onclick="showNoteModal()">
                     + Add a New Note
                 </button>
@@ -96,7 +96,7 @@
                             <td></td>
                             <th scope="row" colspan="2">No Notes found. Add a note</th>
                         </tr>
-                        <tr th:unless="${#lists.isEmpty(notes)}" th:each="note : ${notes}">
+                        <tr th:unless="${#lists.isEmpty(notes)}" th:each="note : ${notes}" class="note-row">
                             <td>
 
                                 <button type="button" class="btn btn-success"
@@ -112,8 +112,8 @@
                                     </button>
                                 </form>
                             </td>
-                            <th scope="row" th:text="${note.notetitle}">Example Note Title</th>
-                            <td th:text="${note.notedescription}">Example Note Description</td>
+                            <th scope="row" class="note-title" th:text="${note.notetitle}">CASA</th>
+                            <td class="note-description" th:text="${note.notedescription}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -147,7 +147,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
+                                <button type="button" id="note-save" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
                                     changes
                                 </button>
                             </div>

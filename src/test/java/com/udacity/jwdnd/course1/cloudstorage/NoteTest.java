@@ -1,37 +1,38 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
-
 import com.udacity.jwdnd.course1.cloudstorage.pages.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
+import com.udacity.jwdnd.course1.cloudstorage.pages.NotePage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AuthenticationTest {
+public class NoteTest {
 
     @LocalServerPort
-    public int port;
+    private int port;
 
-    public static WebDriver driver;
+    private static WebDriver driver;
 
-    public String baseURL;
+    private String baseURL;
+
+    private static HomePage homePage;
+    private static NotePage notePage;
 
     @BeforeAll
     public static void beforeAll() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
+        homePage = new HomePage(driver);
+        notePage = new NotePage(driver);
     }
 
     @AfterAll
@@ -40,37 +41,16 @@ public class AuthenticationTest {
         driver = null;
     }
 
-
     @BeforeEach
     public void beforeEach() {
-        baseURL = "http://localhost:" + port;
+        baseURL = baseURL = "http://localhost:" + port;
     }
 
     @Test
     @Order(1)
-    public void homeNotAccessibleTest() {
-        driver.get(baseURL + "/home");
-        assertEquals("Login", driver.getTitle());
-    }
-
-    @Test
-    @Order(2)
-    public void userLoginInvalidCredentialsTest() {
+    public void loginAndSignUp() {
         var username = "gaara";
         var password = "madara";
-
-        driver.get(baseURL + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
-        assertEquals("Login", loginPage.submitButton.getText());
-    }
-
-    @Test
-    @Order(3)
-    public void userSignupLoginTest() {
-        var username = "gaara";
-        var password = "madara";
-
 
         driver.get(baseURL + "/signup");
 
@@ -81,17 +61,32 @@ public class AuthenticationTest {
 
         var loginPage = new LoginPage(driver);
         loginPage.login(username, password);
-
-        assertEquals("Home", driver.getTitle());
     }
 
     @Test
-    @Order(4)
-    public void userLogoutTest() {
-        new WebDriverWait(driver, 5);
-        var homePage = new HomePage(driver);
-        homePage.logout();
-        assertEquals("Login", driver.getTitle());
+    @Order(2)
+    public void addNote() {
+
+        homePage.openNote();
+
+        var title = "Note title";
+        var description = "Note description";
+        notePage.add(title, description);
+
+        homePage.backToHome();
+
+        assertNotNull(notePage.get(title, description));
     }
 
+//    @Test
+//    @Order(3)
+//    public void updateNote() {
+//
+//    }
+//
+//    @Test
+//    @Order(4)
+//    public void deleteNote() {
+//
+//    }
 }
