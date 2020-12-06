@@ -8,10 +8,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -20,73 +22,90 @@ public class NoteTest {
     @LocalServerPort
     private int port;
 
-    private static WebDriver driver;
-
+    private WebDriver driver;
+    private WebDriverWait driverWait;
     private String baseURL;
 
-    private static HomePage homePage;
-    private static NotePage notePage;
-
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        homePage = new HomePage(driver);
-        notePage = new NotePage(driver);
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        driver.quit();
-        driver = null;
     }
 
     @BeforeEach
     public void beforeEach() {
-        baseURL = baseURL = "http://localhost:" + port;
+        this.driver = new ChromeDriver();
+        this.baseURL = "http://localhost:" + this.port;
+
+        new SignupPage(driver, baseURL).signup();
+        new LoginPage(driver, baseURL).login();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        if (this.driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
     @Order(1)
-    public void loginAndSignUp() {
-        var username = "gaara";
-        var password = "madara";
-
-        driver.get(baseURL + "/signup");
-
-        var signupPage = new SignupPage(driver);
-        signupPage.signup("Manuel", "Ernesto", username, password);
-
-        driver.get(baseURL + "/login");
-
-        var loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
-    }
-
-    @Test
-    @Order(2)
     public void addNote() {
-
+        HomePage homePage = new HomePage(driver);
         homePage.openNote();
 
         var title = "Note title";
         var description = "Note description";
+
+        NotePage notePage = new NotePage(driver);
         notePage.add(title, description);
 
-        homePage.backToHome();
+        homePage.backToHome("Result");
 
         assertNotNull(notePage.get(title, description));
     }
 
-//    @Test
-//    @Order(3)
-//    public void updateNote() {
+
+    @Test
+    @Order(2)
+    public void updateNote() {
+        HomePage homePage = new HomePage(driver);
+        homePage.openNote();
+
+        var title = "Note title";
+        var description = "Note description";
+
+        String newTitle = "new title";
+        String newDescription = "new description";
+
+        NotePage notePage = new NotePage(driver);
+        notePage.add(title, description);
+
+        homePage.backToHome("Result");
+        homePage.openNote();
+
+        notePage.update(title, description, newTitle, newDescription);
+        homePage.backToHome("Result");
+
+        assertNotNull(notePage.get(newTitle, newDescription));
+    }
+
+    @Test
+    @Order(2)
+    public void deleteNote() {
+        //homePage.openNote();
+
+        String title = "Note title";
+        String description = "Note description";
+
+//        notePage.add(title, description);
+//        homePage.backToHome();
 //
-//    }
+//        notePage.delete(title, description);
 //
-//    @Test
-//    @Order(4)
-//    public void deleteNote() {
-//
-//    }
+//        assertNull(notePage.get(title, description));
+    }
+
+    private void insert() {
+
+    }
 }

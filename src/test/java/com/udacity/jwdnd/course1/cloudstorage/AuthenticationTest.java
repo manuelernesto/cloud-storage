@@ -21,30 +21,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AuthenticationTest {
 
     @LocalServerPort
-    public int port;
+    private int port;
 
-    public static WebDriver driver;
-
-    public String baseURL;
+    private WebDriver driver;
+    private WebDriverWait driverWait;
+    private String baseURL;
 
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-
     }
-
-    @AfterAll
-    public static void afterAll() {
-        driver.quit();
-        driver = null;
-    }
-
 
     @BeforeEach
     public void beforeEach() {
-        baseURL = "http://localhost:" + port;
+        this.driver = new ChromeDriver();
+        this.baseURL = "http://localhost:" + this.port;
     }
+
+    @AfterEach
+    public void afterEach() {
+        if (this.driver != null) {
+            driver.quit();
+        }
+    }
+
 
     @Test
     @Order(1)
@@ -56,42 +56,27 @@ public class AuthenticationTest {
     @Test
     @Order(2)
     public void userLoginInvalidCredentialsTest() {
-        var username = "gaara";
-        var password = "madara";
 
-        driver.get(baseURL + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
-        assertEquals("Login", loginPage.submitButton.getText());
+        new LoginPage(driver, baseURL).login();
+
+        Assertions.assertEquals("Login", driver.getTitle());
     }
 
     @Test
     @Order(3)
     public void userSignupLoginTest() {
-        var username = "gaara";
-        var password = "madara";
 
+        var signupPage = new SignupPage(driver, baseURL);
+        signupPage.signup();
+        signupPage.backToLogin();
 
-        driver.get(baseURL + "/signup");
+        new LoginPage(driver, baseURL).login();
 
-        var signupPage = new SignupPage(driver);
-        signupPage.signup("Manuel", "Ernesto", username, password);
+        Assertions.assertEquals("Home", driver.getTitle());
 
-        driver.get(baseURL + "/login");
+        new HomePage(driver).logout();
 
-        var loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
-
-        assertEquals("Home", driver.getTitle());
     }
 
-    @Test
-    @Order(4)
-    public void userLogoutTest() {
-        new WebDriverWait(driver, 5);
-        var homePage = new HomePage(driver);
-        homePage.logout();
-        assertEquals("Login", driver.getTitle());
-    }
 
 }

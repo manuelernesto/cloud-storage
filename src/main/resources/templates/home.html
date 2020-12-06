@@ -99,14 +99,14 @@
                         <tr th:unless="${#lists.isEmpty(notes)}" th:each="note : ${notes}" class="note-row">
                             <td>
 
-                                <button type="button" class="btn btn-success"
+                                <button type="button" class="btn btn-success note-edit"
                                         style="float: left; margin-right: 5px;"
                                         th:attr="onclick=|showNoteModal(${note.noteid}, '${note.notetitle}', '${note.notedescription}')|">
                                     Edit
                                 </button>
                                 <form method="POST" th:action="@{/note-delete}">
                                     <input type="hidden" name="noteid" th:value="${note.noteid}">
-                                    <button type="submit" class="btn btn-danger"
+                                    <button type="submit" class="btn btn-danger note-delete"
                                             onclick="return confirm('Are you sure you want to delete the note?');">
                                         Delete
                                     </button>

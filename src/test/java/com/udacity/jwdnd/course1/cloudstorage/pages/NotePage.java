@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.pages;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -31,19 +32,24 @@ public class NotePage {
     private WebDriver webDriver;
 
     public NotePage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
+        PageFactory.initElements(this.webDriver, this);
     }
 
 
     public void add(String title, String description) {
 
-        new WebDriverWait(this.webDriver, 2).until(ExpectedConditions.elementToBeClickable(newNoteBtn)).click();
+        new WebDriverWait(this.webDriver, 5).until(ExpectedConditions.elementToBeClickable(newNoteBtn)).click();
 
-        new WebDriverWait(this.webDriver, 2).until(ExpectedConditions.elementToBeClickable(saveBtn));
+        Assertions.assertNotNull(newNoteBtn);
+
+        new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.visibilityOf(noteTitle));
 
         this.noteTitle.sendKeys(title);
         this.noteDescription.sendKeys(description);
+
+        Assertions.assertNotNull(saveBtn);
+
         this.saveBtn.click();
     }
 

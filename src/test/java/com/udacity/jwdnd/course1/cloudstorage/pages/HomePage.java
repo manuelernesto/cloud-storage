@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.pages;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,15 +22,21 @@ public class HomePage {
     @FindBy(id = "nav-credentials-tab")
     private WebElement tabCredential;
 
-    private WebDriver webDriver;
+    @FindBy(id = "back-to-home-from-result")
+    private WebElement backToHomeBtn;
 
-    public HomePage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
-        this.webDriver = webDriver;
+    private WebDriver driver;
+
+    public HomePage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     public void logout() {
+        String loginText = "Login";
         this.logoutButton.click();
+        new WebDriverWait(this.driver, 1).until(ExpectedConditions.titleContains(loginText));
+        Assertions.assertEquals(loginText, driver.getTitle());
     }
 
     public void openNote() {
@@ -40,16 +47,16 @@ public class HomePage {
         tabCredential.click();
     }
 
-    public void backToHome() {
-        assertEquals("Result", webDriver.getTitle());
+    public void backToHome(String expected) {
+        String homeText = "Home";
 
-        WebElement backToHomeBtn = this.webDriver.findElement(By.id("back-to-home-from-result"));
+        assertEquals(expected, driver.getTitle());
 
         backToHomeBtn.click();
 
-        new WebDriverWait(this.webDriver, 1).until(ExpectedConditions.titleContains("Home"));
+        new WebDriverWait(this.driver, 1).until(ExpectedConditions.titleContains(homeText));
 
-        assertEquals("Home", webDriver.getTitle());
+        assertEquals(homeText, driver.getTitle());
         openNote();
     }
 
