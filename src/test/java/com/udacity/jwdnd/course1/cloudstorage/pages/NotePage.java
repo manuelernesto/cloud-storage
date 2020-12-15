@@ -70,6 +70,7 @@ public class NotePage {
 
         noteTitle.sendKeys(newTitle);
         noteDescription.sendKeys(newDescription);
+
         saveBtn.click();
 
         return true;

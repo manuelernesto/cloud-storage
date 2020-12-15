@@ -1,7 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.pages;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,9 +53,10 @@ public class HomePage {
 
         backToHomeBtn.click();
 
-        new WebDriverWait(this.driver, 1).until(ExpectedConditions.titleContains(homeText));
+       // new WebDriverWait(this.driver, 5).until(ExpectedConditions.titleContains(homeText));
 
         assertEquals(homeText, driver.getTitle());
+
         openNote();
     }
 

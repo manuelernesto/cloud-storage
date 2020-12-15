@@ -81,7 +81,6 @@ public class NoteTest {
         notePage.add(title, description);
 
         homePage.backToHome("Result");
-        homePage.openNote();
 
         notePage.update(title, description, newTitle, newDescription);
         homePage.backToHome("Result");
