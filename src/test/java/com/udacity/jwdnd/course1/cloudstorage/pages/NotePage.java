@@ -20,6 +20,9 @@ public class NotePage {
     @FindBy(className = "note-row")
     private List<WebElement> notes;
 
+    @FindBy(className = "note-delete")
+    private WebElement deleteBtn;
+
     @FindBy(id = "note-title")
     private WebElement noteTitle;
 
@@ -80,7 +83,8 @@ public class NotePage {
         WebElement noteRow = this.get(title, description);
         if (noteRow == null) return false;
 
-        noteRow.findElement(By.className("note-delete")).click();
+        //  noteRow.findElement(By.className("note-delete")).click();
+        deleteBtn.click();
 
         try {
             WebDriverWait wait = new WebDriverWait(this.webDriver, 1);

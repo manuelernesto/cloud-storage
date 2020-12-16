@@ -91,17 +91,20 @@ public class NoteTest {
     @Test
     @Order(2)
     public void deleteNote() {
-        //homePage.openNote();
+        HomePage homePage = new HomePage(driver);
+        homePage.openNote();
 
-        String title = "Note title";
-        String description = "Note description";
+        var title = "Note title";
+        var description = "Note description";
 
-//        notePage.add(title, description);
-//        homePage.backToHome();
-//
-//        notePage.delete(title, description);
-//
-//        assertNull(notePage.get(title, description));
+        NotePage notePage = new NotePage(driver);
+        notePage.add(title, description);
+
+        homePage.backToHome("Result");
+
+        assertNotNull(notePage.get(title, description));
+
+        notePage.delete(title, description);
     }
 
     private void insert() {
