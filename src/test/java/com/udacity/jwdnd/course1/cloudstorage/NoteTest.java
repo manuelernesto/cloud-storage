@@ -111,11 +111,11 @@ public class NoteTest {
         wait.withTimeout(Duration.ofSeconds(30));
         WebElement newNote = driver.findElement(By.id("new-note-btn"));
         wait.until(ExpectedConditions.elementToBeClickable(newNote)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys("noteTitle");
-        WebElement notedescription = driver.findElement(By.id("note-description"));
-        notedescription.sendKeys("noteDescription");
-        WebElement savechanges = driver.findElement(By.id("noteSubmit"));
-        savechanges.submit();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys("note Title");
+        WebElement description = driver.findElement(By.id("note-description"));
+        description.sendKeys("note Description");
+        WebElement save = driver.findElement(By.id("noteSubmit"));
+        save.submit();
         Assertions.assertEquals("Result", driver.getTitle());
 
         WebElement backHome = driver.findElement(By.id("back-to-home-from-result"));
@@ -129,7 +129,7 @@ public class NoteTest {
         List<WebElement> notesList = notesTable.findElements(By.tagName("th"));
         boolean created = false;
         for (WebElement element : notesList) {
-            if (element.getAttribute("innerHTML").equals("noteTitle")) {
+            if (element.getAttribute("innerHTML").equals("note Title")) {
                 created = true;
                 break;
             }
@@ -169,8 +169,8 @@ public class NoteTest {
         wait.until(ExpectedConditions.elementToBeClickable(notetitle));
         notetitle.clear();
         notetitle.sendKeys(newNoteTitle);
-        WebElement savechanges = driver.findElement(By.id("noteSubmit"));
-        savechanges.submit();
+        WebElement save = driver.findElement(By.id("noteSubmit"));
+        save.submit();
         Assertions.assertEquals("Result", driver.getTitle());
         WebElement backHome = driver.findElement(By.id("back-to-home-from-result"));
         backHome.click();
