@@ -1,27 +1,24 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 
-import com.udacity.jwdnd.course1.cloudstorage.pages.HomePage;
-import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
-import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AuthenticationTest {
 
     @LocalServerPort
     private int port;
 
     private WebDriver driver;
-    private String baseURL;
 
     @BeforeAll
     static void beforeAll() {
@@ -31,7 +28,6 @@ public class AuthenticationTest {
     @BeforeEach
     public void beforeEach() {
         this.driver = new ChromeDriver();
-        this.baseURL = "http://localhost:" + this.port;
     }
 
     @AfterEach
@@ -41,38 +37,68 @@ public class AuthenticationTest {
         }
     }
 
-
     @Test
-    @Order(1)
-    public void homeNotAccessibleTest() {
-        driver.get(baseURL + "/home");
-        assertEquals("Login", driver.getTitle());
-    }
-
-    @Test
-    @Order(2)
-    public void userLoginInvalidCredentialsTest() {
-
-        new LoginPage(driver, baseURL).login();
-
+    public void getLoginPageTest() {
+        driver.get("http://localhost:" + this.port + "/login");
         Assertions.assertEquals("Login", driver.getTitle());
     }
 
     @Test
-    @Order(3)
-    public void userSignupLoginTest() {
-
-        var signupPage = new SignupPage(driver, baseURL);
-        signupPage.signup();
-        signupPage.backToLogin();
-
-        new LoginPage(driver, baseURL).login();
-
-        Assertions.assertEquals("Home", driver.getTitle());
-
-        new HomePage(driver).logout();
-
+    public void getSignupPageTest() {
+        driver.get("http://localhost:" + this.port + "/signup");
+        Assertions.assertEquals("Sign Up", driver.getTitle());
     }
 
+    @Test
+    public void homeNotAccessibleWithoutLoginTest() {
+        this.driver.get("http://localhost:" + this.port + "/home");
+        Assertions.assertEquals("Login", driver.getTitle());
+    }
+
+    @Test
+    public void newUserAccessTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        // signup
+        signup();
+
+        //login
+        login();
+
+        //logout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logout-btn")));
+        WebElement logoutButton = driver.findElement(By.id("logout-btn"));
+        logoutButton.submit();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signup-link")));
+        Assertions.assertEquals("Login", driver.getTitle());
+
+        //Try to access homepage
+        driver.get("http://localhost:" + this.port + "/home");
+        Assertions.assertEquals("Login", driver.getTitle());
+    }
+
+    private void login() {
+        driver.get("http://localhost:" + this.port + "/login");
+        WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+        inputUsername.sendKeys("manuelernest0");
+        WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+        inputPassword.sendKeys("password");
+        WebElement loginButton = driver.findElement(By.id("submit-button"));
+        loginButton.click();
+        Assertions.assertEquals("Home", driver.getTitle());
+    }
+
+    private void signup() {
+        driver.get("http://localhost:" + this.port + "/signup");
+        WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
+        inputFirstName.sendKeys("Manuel");
+        WebElement inputLastName = driver.findElement(By.id("inputLastName"));
+        inputLastName.sendKeys("Ernesto");
+        WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+        inputUsername.sendKeys("manuelernest0");
+        WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+        inputPassword.sendKeys("password");
+        WebElement signUpButton = driver.findElement(By.id("submit-button"));
+        signUpButton.click();
+    }
 
 }

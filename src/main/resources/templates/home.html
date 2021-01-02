@@ -100,6 +100,7 @@
                             <td>
 
                                 <button type="button" class="btn btn-success note-edit"
+                                        name="edit"
                                         style="float: left; margin-right: 5px;"
                                         th:attr="onclick=|showNoteModal(${note.noteid}, '${note.notetitle}', '${note.notedescription}')|">
                                     Edit
@@ -107,7 +108,7 @@
                                 <form method="POST" th:action="@{/note-delete}">
                                     <input type="hidden" name="noteid" th:value="${note.noteid}">
                                     <button type="submit" class="btn btn-danger note-delete"
-                                            onclick="return confirm('Are you sure you want to delete the note?');">
+                                            name="delete">
                                         Delete
                                     </button>
                                 </form>
@@ -147,7 +148,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" id="note-save" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
+                                <button type="button" id="note-save" class="btn btn-primary"
+                                        onclick="$('#noteSubmit').click();">Save
                                     changes
                                 </button>
                             </div>
@@ -158,6 +160,7 @@
             </div>
             <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
                 <button style="margin: 0.25em;" type="button" class="btn btn-info float-right"
+                        id="new-credential-btn"
                         onclick="showCredentialModal()">
                     + Add a New Credential
                 </button>
@@ -179,7 +182,7 @@
                         </tr>
                         <tr th:unless="${#lists.isEmpty(credentials)}" th:each="credential : ${credentials}">
                             <td>
-                                <button type="button" class="btn btn-success"
+                                <button type="button" class="btn btn-success" name="editCred"
                                         style="float: left; margin-right: 5px;"
                                         th:attr="onclick=|showCredentialModal(${credential.credentialid}, '${credential.url}', '${credential.username}', '${credential.password}')|">
                                     Edit
@@ -188,8 +191,7 @@
 
                                 <form method="POST" th:action="@{/credential-delete}">
                                     <input type="hidden" name="credentialid" th:value="${credential.credentialid}">
-                                    <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete the credential?');">
+                                    <button type="submit" class="btn btn-danger" name="delete">
                                         Delete
                                     </button>
                                 </form>
@@ -235,7 +237,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">
+                                <button type="button" id="save-credential" class="btn btn-primary" onclick="$('#credentialSubmit').click();">
                                     Save changes
                                 </button>
                             </div>
