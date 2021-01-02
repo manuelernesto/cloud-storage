@@ -65,8 +65,8 @@ public class NoteTest {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         String newNoteTitle = "new note title";
-
         WebElement notesTab = driver.findElement(By.id("nav-notes-tab"));
+
         //add note
         addNote(jse, wait, notesTab);
 
@@ -122,7 +122,6 @@ public class NoteTest {
         backHome.click();
     }
 
-
     private void getNewNote(JavascriptExecutor jse, WebElement notesTab) {
         notesTab = driver.findElement(By.id("nav-notes-tab"));
         jse.executeScript("arguments[0].click()", notesTab);
@@ -176,6 +175,8 @@ public class NoteTest {
         WebElement backHome = driver.findElement(By.id("back-to-home-from-result"));
         backHome.click();
     }
+
+
 
 
     private void login() {

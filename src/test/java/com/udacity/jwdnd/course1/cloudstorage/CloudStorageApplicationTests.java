@@ -40,5 +40,5 @@ class CloudStorageApplicationTests {
             driver.quit();
         }
     }
-    
+
 }
