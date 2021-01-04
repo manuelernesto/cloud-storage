@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class FileController {
 
         Boolean isSuccess = null;
 
+
         var file = new File();
         var user = userService.getUser(auth.getName());
 
@@ -51,7 +53,12 @@ public class FileController {
 
                 isSuccess = fileService.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Meu Erro2: " + e.getMessage());
+//                e.printStackTrace();
+//                return "redirect:/result?isSuccess=" + false;
+            } catch (SizeLimitExceededException e) {
+                System.out.println("Meu Erro1: " + e.getMessage());
+                //return "redirect:/result?isSuccess=" + false;
             }
 
         }
