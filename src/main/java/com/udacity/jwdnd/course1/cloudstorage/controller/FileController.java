@@ -7,10 +7,8 @@ import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -53,12 +51,7 @@ public class FileController {
 
                 isSuccess = fileService.save(file);
             } catch (IOException e) {
-                System.out.println("Meu Erro2: " + e.getMessage());
-//                e.printStackTrace();
-//                return "redirect:/result?isSuccess=" + false;
-            } catch (SizeLimitExceededException e) {
-                System.out.println("Meu Erro1: " + e.getMessage());
-                //return "redirect:/result?isSuccess=" + false;
+                e.printStackTrace();
             }
 
         }
@@ -93,6 +86,5 @@ public class FileController {
         var isSuccess = fileService.delete(fileId);
         return "redirect:/result?isSuccess=" + isSuccess;
     }
-
 
 }

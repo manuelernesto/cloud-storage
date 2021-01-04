@@ -15,7 +15,7 @@ public class FileService {
         this.fileWrapper = fileWrapper;
     }
 
-    public boolean save(File file) throws SizeLimitExceededException {
+    public boolean save(File file) {
         if (isFileExist(file))
             return false;
 
@@ -35,7 +35,7 @@ public class FileService {
     }
 
     private boolean isFileExist(File file) {
-        File fileExist = fileWrapper.getFilebyName(file.getFileName());
+        File fileExist = fileWrapper.getFileByName(file.getFileName());
         return fileExist != null;
     }
 }

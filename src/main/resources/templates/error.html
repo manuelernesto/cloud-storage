@@ -6,15 +6,17 @@
 
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
 
-    <title>404</title>
+    <title>Error Page</title>
 </head>
 <body class="p-3 mb-2 bg-light text-black">
 <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
     <div class="alert alert-danger fill-parent">
-        <h1 class="display-5 text-center">404</h1>
-        <h2 class="display-5 text-center">Page not found</h2>
-        <p class="text-center">The Page you are looking for doesn't exist or an error occurred. Click <a
-                th:href="@{/}">here</a> to go back.
+        <h1 class="display-5 text-center">Error</h1>
+        <p class="text-center">You've sent a bad request.</p>
+
+        <p class="text-center" th:text="${errorUpload}"></p>
+
+        <p class="text-center">Click<a th:href="@{/}">here</a> to go back.
         </p>
     </div>
 </div>

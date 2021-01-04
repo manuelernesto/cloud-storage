@@ -1,4 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage.controller;
+package com.udacity.jwdnd.course1.cloudstorage.error;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -23,11 +23,10 @@ public class CustomErrorController implements ErrorController {
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
 
-            if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "error";
-            }
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "error";
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                return "error-404";
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                return "error-500";
             }
         }
 
