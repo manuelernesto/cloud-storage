@@ -19,6 +19,9 @@ public interface FileWrapper {
     @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
     File getFile(Integer fileId);
 
+    @Select("SELECT * FROM FILES WHERE fileName = #{fileName}")
+    File getFilebyName(String fileName);
+
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
     boolean delete(Integer fileId);
 }

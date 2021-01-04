@@ -16,11 +16,8 @@ public class FileService {
     }
 
     public boolean save(File file) throws SizeLimitExceededException {
-        long maxFileSize = 10485760;
-        long fileSize = Long.parseLong(file.getFileSize());
-
-        if (maxFileSize < fileSize)
-            throw new SizeLimitExceededException("", fileSize, maxFileSize);
+        if (isFileExist(file))
+            return false;
 
         return fileWrapper.insert(file);
     }
@@ -35,5 +32,10 @@ public class FileService {
 
     public File getFile(Integer fileId) {
         return fileWrapper.getFile(fileId);
+    }
+
+    private boolean isFileExist(File file) {
+        File fileExist = fileWrapper.getFilebyName(file.getFileName());
+        return fileExist != null;
     }
 }
